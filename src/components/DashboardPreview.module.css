@@ -1,0 +1,141 @@
+.preview {
+    padding: 4rem 0 8rem;
+    perspective: 1000px;
+}
+
+.previewContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    width: 100%;
+    max-width: 1000px;
+    height: 500px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.gridOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(rgba(0, 138, 92, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.glow {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 223, 154, 0.2), transparent 70%);
+    filter: blur(40px);
+    z-index: 1;
+}
+
+.topBar {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.circles {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.imageWrapper {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    margin-top: 0;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    overflow: hidden;
+}
+
+.dashboardImage {
+    object-fit: cover;
+    object-position: top;
+}
+
+.iconBox {
+    width: 60px;
+    height: 60px;
+    background: var(--glass-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease;
+}
+
+.iconBox:hover {
+    transform: scale(1.05);
+    border-color: var(--primary);
+}
+
+.mainLogoBox {
+    padding: 3rem;
+    background: rgba(0, 138, 92, 0.03);
+    border-radius: 32px;
+    border: 1px solid var(--glow-green);
+}
+
+.mainLogo {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 40px rgba(0, 138, 92, 0.1);
+}
+
+@media (max-width: 768px) {
+    .card {
+        height: 400px;
+    }
+
+    .mainLogoBox {
+        padding: 1.5rem;
+    }
+
+    .mainLogo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .iconBox {
+        width: 48px;
+        height: 48px;
+    }
+}

@@ -1,0 +1,123 @@
+.navbar {
+    padding: 1.25rem 0;
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.navContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    font-family: var(--font-outfit);
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navLinks {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.link {
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.link:hover {
+    color: var(--foreground);
+}
+
+.btnPrimary {
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1.75rem;
+    border-radius: 99px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 138, 92, 0.2);
+}
+
+.btnPrimary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 138, 92, 0.3);
+}
+
+.authActions {
+    display: flex;
+    align-items: center;
+}
+
+.btnLogout {
+    padding: 0.6rem 1.25rem;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.btnLogout:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.navDashboard {
+    background: white;
+    border-bottom: 1px solid var(--border);
+}
+
+.dashboardActions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dashboardPill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #111827;
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.btnLogoutIcon {
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btnLogoutIcon:hover {
+    color: var(--foreground);
+    transform: translateX(2px);
+}
+
+@media (max-width: 768px) {
+    .navLinks {
+        display: none;
+    }
+}

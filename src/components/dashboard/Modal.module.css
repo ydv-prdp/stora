@@ -1,0 +1,120 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+}
+
+.modal {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    z-index: 1001;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.closeBtn {
+    color: var(--muted);
+    transition: color 0.2s ease;
+}
+
+.closeBtn:hover {
+    color: var(--foreground);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.body {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.footer {
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid var(--glass-border);
+}
+
+.cancelBtn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    background: transparent;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.submitBtn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    background: var(--primary);
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.submitBtn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 138, 92, 0.3);
+}
+
+.submitBtnDanger {
+    background: #ef4444;
+}
+
+.submitBtnDanger:hover {
+    background: #dc2626;
+}
+
+.submitBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
