@@ -8,18 +8,38 @@
   --foreground: #0a0a0a;
   --muted: #666666;
   --border: #f0f0f0;
+  --card-bg: #ffffff;
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.2);
   --glow-green: rgba(0, 223, 154, 0.15);
+  --input-bg: #ffffff;
+  --input-border: #e0e0e0;
 
   --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-outfit: 'Outfit', sans-serif;
+}
+
+[data-theme="dark"] {
+  --primary: #00df9a;
+  --primary-hover: #00c589;
+  --secondary: #008a5c;
+  --background: #0a0a0a;
+  --foreground: #e5e5e5;
+  --muted: #a0a0a0;
+  --border: #2a2a2a;
+  --card-bg: #1a1a1a;
+  --glass-bg: rgba(26, 26, 26, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glow-green: rgba(0, 223, 154, 0.1);
+  --input-bg: #1a1a1a;
+  --input-border: #2a2a2a;
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 html,
@@ -39,6 +59,13 @@ body {
     radial-gradient(circle at 0% 0%, rgba(0, 138, 92, 0.05), transparent 30%),
     radial-gradient(circle at 100% 100%, rgba(0, 138, 92, 0.05), transparent 30%);
   background-attachment: fixed;
+}
+
+[data-theme="dark"] body {
+  background-image:
+    radial-gradient(circle at 50% -20%, var(--glow-green), transparent 50%),
+    radial-gradient(circle at 0% 0%, rgba(0, 223, 154, 0.03), transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(0, 223, 154, 0.03), transparent 40%);
 }
 
 h1,
@@ -89,6 +116,33 @@ button {
   pointer-events: none;
   cursor: not-allowed;
   filter: grayscale(0.5);
+}
+
+/* Global Input Refinements */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--foreground);
+  -webkit-box-shadow: 0 0 0px 1000px var(--input-bg) inset;
+  transition: background-color 5000s ease-in-out 0s;
+  border: 1px solid var(--border);
+}
+
+input,
+textarea,
+select {
+  outline: none;
+}
+
+::placeholder {
+  color: var(--muted);
+  opacity: 0.6;
 }
 
 @media (max-width: 768px) {

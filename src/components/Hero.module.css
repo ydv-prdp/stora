@@ -28,6 +28,11 @@
     transition: all 0.3s ease;
 }
 
+[data-theme="dark"] .badge {
+    background: rgba(0, 223, 154, 0.1);
+    border-color: rgba(0, 223, 154, 0.2);
+}
+
 .badge:hover {
     background: rgba(0, 138, 92, 0.1);
     border-color: rgba(0, 138, 92, 0.2);
@@ -52,6 +57,7 @@
 
 .gradientText {
     background: linear-gradient(to right, var(--primary), var(--secondary));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -101,6 +107,11 @@
     align-items: center;
     gap: 0.75rem;
     transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .btnSecondary {
+    background: var(--card-bg);
+    border-color: var(--border);
 }
 
 .btnSecondary:hover {

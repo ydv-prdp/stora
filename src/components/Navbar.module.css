@@ -9,6 +9,11 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+[data-theme="dark"] .navbar {
+    background: rgba(10, 10, 10, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .navContainer {
     display: flex;
     align-items: center;
@@ -65,23 +70,59 @@
 .authActions {
     display: flex;
     align-items: center;
+    gap: 1rem;
+}
+
+.themeToggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--glass-bg);
+    border: 1px solid var(--border);
+    color: var(--foreground);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.themeToggle:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 138, 92, 0.2);
+}
+
+.themeToggle svg {
+    transition: transform 0.3s ease;
+}
+
+.themeToggle:hover svg {
+    transform: rotate(15deg);
 }
 
 .btnLogout {
     padding: 0.6rem 1.25rem;
     border-radius: 8px;
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--border);
+    color: var(--foreground);
     font-weight: 600;
     font-size: 0.9rem;
     transition: all 0.2s ease;
 }
 
 .btnLogout:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--input-bg);
 }
 
 .navDashboard {
     background: white;
+    border-bottom: 1px solid var(--border);
+}
+
+[data-theme="dark"] .navDashboard {
+    background: var(--card-bg);
     border-bottom: 1px solid var(--border);
 }
 
@@ -101,6 +142,17 @@
     border-radius: 12px;
     font-weight: 700;
     font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .dashboardPill {
+    background: var(--primary);
+    color: #0a0a0a;
+}
+
+.dashboardPill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btnLogoutIcon {
@@ -119,5 +171,10 @@
 @media (max-width: 768px) {
     .navLinks {
         display: none;
+    }
+
+    .themeToggle {
+        width: 36px;
+        height: 36px;
     }
 }

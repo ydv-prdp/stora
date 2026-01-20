@@ -1,6 +1,6 @@
 .faq {
     padding: 8rem 0;
-    background: rgba(0, 138, 92, 0.01);
+    background: var(--background);
 }
 
 .container {

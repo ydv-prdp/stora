@@ -1,6 +1,6 @@
 .cta {
     padding: 8rem 0;
-    background: white;
+    background: var(--background);
 }
 
 .container {

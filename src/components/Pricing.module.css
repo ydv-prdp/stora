@@ -37,7 +37,7 @@
 }
 
 .card {
-    background: white;
+    background: var(--card-bg);
     padding: 3rem;
     border-radius: 32px;
     border: 1px solid var(--border);
@@ -129,7 +129,7 @@
     border-radius: 99px;
     font-weight: 700;
     font-size: 1rem;
-    background: white;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     color: var(--foreground);
     transition: all 0.2s ease;

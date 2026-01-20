@@ -5,7 +5,7 @@
     justify-content: center;
     position: relative;
     padding: 2rem;
-    background: #ffffff;
+    background: var(--background);
 }
 
 .card {
@@ -16,7 +16,7 @@
     backdrop-filter: blur(20px);
     padding: 3rem;
     border-radius: 32px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 10;
 }
@@ -60,11 +60,13 @@
 .input {
     padding: 0.875rem 1.25rem;
     border-radius: 12px;
-    background: white;
+    background: var(--input-bg);
     border: 1px solid var(--border);
-    font-size: 1rem;
-    transition: all 0.2s ease;
+    color: var(--foreground);
+    line-height: normal;
     width: 100%;
+    outline: none;
+    box-shadow: none;
 }
 
 .input:focus {
@@ -109,7 +111,7 @@
 .toggleAuth {
     margin-top: 2rem;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--muted);
 }
 
@@ -131,7 +133,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    background: white;
+    background: var(--card-bg);
     color: var(--foreground);
     border: 1px solid var(--border);
     padding: 0.875rem;
@@ -144,10 +146,9 @@
 }
 
 .googleBtn:hover {
-    background: #f8f9fa;
-    border-color: #d2d2d2;
+    background: var(--border);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .googleIcon {
