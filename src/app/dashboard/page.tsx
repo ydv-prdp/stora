@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, setDoc, doc, Timestamp, where } from 'firebase/firestore';
 import styles from './dashboard.module.css';
@@ -12,11 +13,10 @@ import NotesSection from '@/components/dashboard/NotesSection';
 import TeamSection from '@/components/dashboard/TeamSection';
 
 export default function Dashboard() {
-    const { user, loading, logout } = useAuth();
+    const { user, isPro, loading, logout } = useAuth();
     const [activeTab, setActiveTab] = useState('overview');
     const [fileCount, setFileCount] = useState(0);
     const [memberCount, setMemberCount] = useState(0);
-    const [isPro, setIsPro] = useState(false);
     const [paymentStatus, setPaymentStatus] = useState<'success' | 'cancel' | 'error' | null>(null);
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -25,14 +25,17 @@ export default function Dashboard() {
         if (!user) return;
 
         const upgradeStatus = searchParams.get('upgrade');
-        if (upgradeStatus === 'success') {
+        const sessionId = searchParams.get('session_id');
+
+        if (upgradeStatus === 'success' || sessionId) {
             setPaymentStatus('success');
             const handleUpgradeSuccess = async () => {
                 try {
-                    const customerId = `cus_${Math.random().toString(36).substr(2, 9)}`;
-                    const paymentId = `pay_${Math.random().toString(36).substr(2, 9)}`;
-                    const subscriptionId = `sub_${Math.random().toString(36).substr(2, 9)}`;
-                    const invoiceId = `in_${Math.random().toString(36).substr(2, 9)}`;
+                    const timestamp = Date.now();
+                    const customerId = `cus_${timestamp}_${user.uid.substring(0, 8)}`;
+                    const paymentId = `pay_${timestamp}_${user.uid.substring(0, 8)}`;
+                    const subscriptionId = `sub_${timestamp}_${user.uid.substring(0, 8)}`;
+                    const invoiceId = `in_${timestamp}_${user.uid.substring(0, 8)}`;
 
                     // 1. Update Customers
                     await setDoc(doc(db, 'users', user.uid, 'stripe_customers', customerId), {
@@ -66,7 +69,8 @@ export default function Dashboard() {
                     // 4. Update Invoices
                     await setDoc(doc(db, 'users', user.uid, 'invoices', invoiceId), {
                         customer_id: customerId,
-                        amount: 1000,
+                        user_id: user.uid,
+                        amount: 4900,
                         currency: 'usd',
                         status: 'paid',
                         created_at: Timestamp.now(),
@@ -162,19 +166,6 @@ export default function Dashboard() {
 
         initStripeCollections();
 
-        // Check subscription status
-        const subsRef = collection(db, 'users', user.uid, 'subscriptions');
-        const qSubs = query(subsRef, where('status', '==', 'active'));
-
-        const unsubscribeSubs = onSnapshot(qSubs,
-            (snapshot) => {
-                setIsPro(!snapshot.empty);
-            },
-            (error) => {
-                console.error("Error in subscriptions listener:", error);
-            }
-        );
-
         const filesRef = collection(db, 'users', user.uid, 'files');
         const unsubscribeFiles = onSnapshot(filesRef,
             (snapshot) => {
@@ -196,7 +187,6 @@ export default function Dashboard() {
         );
 
         return () => {
-            unsubscribeSubs();
             unsubscribeFiles();
             unsubscribeTeam();
         };
@@ -247,6 +237,32 @@ export default function Dashboard() {
                         </button>
                     </div>
                 )}
+
+                {isPro ? (
+                    <div className={`${styles.planBanner} ${styles.proPlanBanner}`}>
+                        <div className={styles.statusContent}>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                            </svg>
+                            <span>You are a Pro User</span>
+                        </div>
+                        <div className={styles.proBadge}>Pro Member</div>
+                    </div>
+                ) : (
+                    <div className={`${styles.planBanner} ${styles.freePlanBanner}`}>
+                        <div className={styles.statusContent}>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 16v-4M12 8h.01" />
+                            </svg>
+                            <span>Upgrade to Pro Plan in only $49 and Enjoy Unlimited Benefits</span>
+                        </div>
+                        <Link href="https://buy.stripe.com/test_5kQeVc0tt95SgIz6Ip5Vu01" className={styles.upgradeLinkSmall}>
+                            Upgrade Now
+                        </Link>
+                    </div>
+                )}
+
                 <div className={styles.dashboardHeaderTier}>
                     <div className={styles.titleInfo}>
                         <div className={styles.userAvatar}>
@@ -370,8 +386,8 @@ export default function Dashboard() {
                     )}
 
                     {activeTab === 'files' && <FilesSection uid={user.uid} isPro={isPro} />}
-                    {activeTab === 'notes' && <NotesSection uid={user.uid} />}
-                    {activeTab === 'team' && <TeamSection uid={user.uid} />}
+                    {activeTab === 'notes' && <NotesSection uid={user.uid} isPro={isPro} />}
+                    {activeTab === 'team' && <TeamSection uid={user.uid} isPro={isPro} />}
                 </div>
             </div>
         </div>

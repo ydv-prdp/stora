@@ -12,12 +12,17 @@ interface TeamMember {
     role: string;
 }
 
-const TeamSection = ({ uid }: { uid: string }) => {
+const TeamSection = ({ uid, isPro }: { uid: string, isPro: boolean }) => {
     const [members, setMembers] = useState<TeamMember[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
+
+    const MAX_MEMBERS = 2;
+    const isAtLimit = !isPro && members.length >= MAX_MEMBERS;
+    const STRIPE_PRO_PLAN_LINK = 'https://buy.stripe.com/test_5kQeVc0tt95SgIz6Ip5Vu01';
 
     // CRUD state
     const [isEditMode, setIsEditMode] = useState(false);
@@ -73,6 +78,12 @@ const TeamSection = ({ uid }: { uid: string }) => {
     const handleSaveMember = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!name.trim()) return;
+
+        if (!isPro && !isEditMode && members.length >= MAX_MEMBERS) {
+            alert(`You've reached the free plan limit of ${MAX_MEMBERS} team members. Please upgrade to Pro to add more.`);
+            return;
+        }
+
         setIsSubmitting(true);
         try {
             if (isEditMode && editingMemberId) {
@@ -118,14 +129,26 @@ const TeamSection = ({ uid }: { uid: string }) => {
         <section className={styles.section}>
             <div className={styles.sectionHeader}>
                 <h2 className={styles.sectionTitle}>Team Members</h2>
-                <button className={styles.btnPrimary} onClick={handleOpenCreateModal}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                        <circle cx="8.5" cy="7" r="4" />
-                        <path d="M20 8v6M23 11h-6" />
-                    </svg>
-                    Add Member
-                </button>
+                <div className={styles.actions}>
+                    {isAtLimit && (
+                        <div className={styles.limitBadge}>
+                            <span>Free Plan Limit Reached</span>
+                            <button className={styles.upgradeLink} onClick={() => setIsUpgradeModalOpen(true)}>Upgrade</button>
+                        </div>
+                    )}
+                    <button
+                        className={styles.btnPrimary}
+                        onClick={handleOpenCreateModal}
+                        disabled={isAtLimit}
+                    >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                            <circle cx="8.5" cy="7" r="4" />
+                            <path d="M20 8v6M23 11h-6" />
+                        </svg>
+                        Add Member
+                    </button>
+                </div>
             </div>
 
             {loading ? (
@@ -223,6 +246,18 @@ const TeamSection = ({ uid }: { uid: string }) => {
             >
                 <div className={styles.deleteConfirmMessage}>
                     <p>Are you sure you want to delete {memberToDelete?.name}?</p>
+                </div>
+            </Modal>
+            {/* Upgrade Modal */}
+            <Modal
+                isOpen={isUpgradeModalOpen}
+                onClose={() => setIsUpgradeModalOpen(false)}
+                title="Upgrade to Pro"
+                onSubmit={(e) => { e.preventDefault(); window.location.href = STRIPE_PRO_PLAN_LINK; }}
+                submitLabel="Upgrade Now"
+            >
+                <div className={styles.upgradeContent}>
+                    <p>Upgrade to Pro to add unlimited team members and collaborate seamlessly with your whole organization.</p>
                 </div>
             </Modal>
         </section>

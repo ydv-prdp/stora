@@ -1,9 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 import styles from './Hero.module.css';
 
 const Hero = () => {
+    const { user } = useAuth();
     return (
         <section className={styles.hero}>
             <div className="grid-bg"></div>
@@ -44,9 +47,12 @@ const Hero = () => {
                     transition={{ duration: 0.6, delay: 0.6 }}
                     className={styles.actions}
                 >
-                    <button className={styles.btnPrimary}>
+                    <Link
+                        href={user ? "/dashboard" : "/auth"}
+                        className={`${styles.btnPrimary} ${user ? 'btnDisabled' : ''}`}
+                    >
                         Get Started Free <span>→</span>
-                    </button>
+                    </Link>
                     <button className={styles.btnSecondary}>
                         <div className={styles.playIcon}>
                             <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">

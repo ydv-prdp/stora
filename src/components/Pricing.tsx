@@ -1,6 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 import styles from './Pricing.module.css';
 
 const plans = [
@@ -17,7 +19,7 @@ const plans = [
         price: '$49',
         description: 'Advanced features for growing organizations.',
         features: ['Unlimited users', '500GB storage', 'Advanced permissions', 'Priority support', 'Audit logs'],
-        buttonText: 'Try Pro Free',
+        buttonText: 'Pro Plan',
         popular: true
     },
     {
@@ -31,6 +33,7 @@ const plans = [
 ];
 
 const Pricing = () => {
+    const { user, isPro } = useAuth();
     return (
         <section className={styles.pricing} id="pricing">
             <div className={`container ${styles.pricingContainer}`}>
@@ -67,9 +70,22 @@ const Pricing = () => {
                                 ))}
                             </ul>
 
-                            <button className={`${styles.button} ${plan.popular ? styles.btnPopular : ''}`}>
-                                {plan.buttonText}
-                            </button>
+                            {plan.name !== 'Enterprise' ? (
+                                <Link
+                                    href={
+                                        plan.name === 'Pro'
+                                            ? (user ? (isPro ? "/dashboard" : "https://buy.stripe.com/test_5kQeVc0tt95SgIz6Ip5Vu01") : "/auth?callback=/checkout/pro")
+                                            : (user ? "#" : "/auth")
+                                    }
+                                    className={`${styles.button} ${plan.popular ? styles.btnPopular : ''} ${plan.name === 'Starter' && user ? 'btnDisabled' : ''}`}
+                                >
+                                    {plan.buttonText}
+                                </Link>
+                            ) : (
+                                <button className={`${styles.button} ${plan.popular ? styles.btnPopular : ''}`}>
+                                    {plan.buttonText}
+                                </button>
+                            )}
                         </motion.div>
                     ))}
                 </div>

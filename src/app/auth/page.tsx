@@ -27,9 +27,14 @@ function AuthContent() {
 
     useEffect(() => {
         if (!authLoading && user) {
-            router.push('/dashboard');
+            const callback = searchParams?.get('callback');
+            if (callback === '/checkout/pro') {
+                window.location.href = 'https://buy.stripe.com/test_5kQeVc0tt95SgIz6Ip5Vu01';
+            } else {
+                router.push('/dashboard');
+            }
         }
-    }, [user, authLoading, router]);
+    }, [user, authLoading, router, searchParams]);
 
     useEffect(() => {
         const unverified = searchParams?.get('unverified');
@@ -56,7 +61,12 @@ function AuthContent() {
         setLoading(true);
         try {
             await signInWithPopup(auth, googleProvider);
-            router.push('/dashboard');
+            const callback = searchParams?.get('callback');
+            if (callback === '/checkout/pro') {
+                window.location.href = 'https://buy.stripe.com/test_5kQeVc0tt95SgIz6Ip5Vu01';
+            } else {
+                router.push('/dashboard');
+            }
         } catch (err: any) {
             console.error('Google Auth error:', err.code);
             if (err.code !== 'auth/popup-closed-by-user') {
@@ -82,7 +92,12 @@ function AuthContent() {
                     setVerificationSent(true);
                     await signOut(auth);
                 } else {
-                    router.push('/dashboard');
+                    const callback = searchParams?.get('callback');
+                    if (callback === '/checkout/pro') {
+                        window.location.href = 'https://buy.stripe.com/test_5kQeVc0tt95SgIz6Ip5Vu01';
+                    } else {
+                        router.push('/dashboard');
+                    }
                 }
             } else {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);

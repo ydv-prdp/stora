@@ -131,8 +131,8 @@ const FilesSection = ({ uid, isPro }: { uid: string, isPro: boolean }) => {
             return;
         }
 
-        if (files.length >= MAX_FILES) {
-            setUploadError(`You've reached the free plan limit of ${MAX_FILES} files.`);
+        if (!isPro && files.length >= MAX_FILES) {
+            setUploadError(`You've reached the free plan limit of ${MAX_FILES} files. Please upgrade to Pro for unlimited uploads.`);
             return;
         }
 
@@ -222,7 +222,7 @@ const FilesSection = ({ uid, isPro }: { uid: string, isPro: boolean }) => {
     const currentFolderName = folders.find(f => f.id === currentFolderId)?.name;
 
     const isAtLimit = !isPro && files.length >= MAX_FILES;
-    const STRIPE_PRO_PLAN_LINK = 'https://buy.stripe.com/test_7sY9ASccbci4fEv0k15Vu00';
+    const STRIPE_PRO_PLAN_LINK = 'https://buy.stripe.com/test_5kQeVc0tt95SgIz6Ip5Vu01';
 
     const handleUpgrade = (e: React.FormEvent) => {
         e.preventDefault();

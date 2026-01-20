@@ -1,9 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 import styles from './FinalCTA.module.css';
 
 const FinalCTA = () => {
+    const { user } = useAuth();
     return (
         <section className={styles.cta}>
             <div className={`container ${styles.container}`}>
@@ -22,7 +25,12 @@ const FinalCTA = () => {
                     <h2 className={styles.title}>Ready to secure your <br />team's workflow?</h2>
                     <p className={styles.subtitle}>Join over 10,000+ teams who trust Stora for their sensitive assets.</p>
                     <div className={styles.actions}>
-                        <button className={styles.btnPrimary}>Get Started Now</button>
+                        <Link
+                            href={user ? "/dashboard" : "/auth"}
+                            className={`${styles.btnPrimary} ${user ? 'btnDisabled' : ''}`}
+                        >
+                            Get Started Now
+                        </Link>
                         <button className={styles.btnSecondary}>Talk to Sales</button>
                     </div>
                 </motion.div>

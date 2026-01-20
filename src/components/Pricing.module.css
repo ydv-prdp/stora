@@ -133,6 +133,11 @@
     border: 1px solid var(--border);
     color: var(--foreground);
     transition: all 0.2s ease;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
 .button:hover {

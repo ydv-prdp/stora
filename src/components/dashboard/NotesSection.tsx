@@ -12,12 +12,17 @@ interface Note {
     content: string;
 }
 
-const NotesSection = ({ uid }: { uid: string }) => {
+const NotesSection = ({ uid, isPro }: { uid: string, isPro: boolean }) => {
     const [notes, setNotes] = useState<Note[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
+
+    const MAX_NOTES = 5;
+    const isAtLimit = !isPro && notes.length >= MAX_NOTES;
+    const STRIPE_PRO_PLAN_LINK = 'https://buy.stripe.com/test_5kQeVc0tt95SgIz6Ip5Vu01';
 
     // CRUD state
     const [isEditMode, setIsEditMode] = useState(false);
@@ -73,6 +78,12 @@ const NotesSection = ({ uid }: { uid: string }) => {
     const handleSaveNote = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!title.trim()) return;
+
+        if (!isPro && !isEditMode && notes.length >= MAX_NOTES) {
+            alert(`You've reached the free plan limit of ${MAX_NOTES} notes. Please upgrade to Pro to create more.`);
+            return;
+        }
+
         setIsSubmitting(true);
         try {
             if (isEditMode && editingNoteId) {
@@ -118,12 +129,24 @@ const NotesSection = ({ uid }: { uid: string }) => {
         <section className={styles.section}>
             <div className={styles.sectionHeader}>
                 <h2 className={styles.sectionTitle}>My Notes</h2>
-                <button className={styles.btnPrimary} onClick={handleOpenCreateModal}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M12 5v14M5 12h14" />
-                    </svg>
-                    New Note
-                </button>
+                <div className={styles.actions}>
+                    {isAtLimit && (
+                        <div className={styles.limitBadge}>
+                            <span>Free Plan Limit Reached</span>
+                            <button className={styles.upgradeLink} onClick={() => setIsUpgradeModalOpen(true)}>Upgrade</button>
+                        </div>
+                    )}
+                    <button
+                        className={styles.btnPrimary}
+                        onClick={handleOpenCreateModal}
+                        disabled={isAtLimit}
+                    >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
+                        New Note
+                    </button>
+                </div>
             </div>
 
             {loading ? (
@@ -209,6 +232,18 @@ const NotesSection = ({ uid }: { uid: string }) => {
             >
                 <div className={styles.deleteConfirmMessage}>
                     <p>Are you sure you want to delete this note?</p>
+                </div>
+            </Modal>
+            {/* Upgrade Modal */}
+            <Modal
+                isOpen={isUpgradeModalOpen}
+                onClose={() => setIsUpgradeModalOpen(false)}
+                title="Upgrade to Pro"
+                onSubmit={(e) => { e.preventDefault(); window.location.href = STRIPE_PRO_PLAN_LINK; }}
+                submitLabel="Upgrade Now"
+            >
+                <div className={styles.upgradeContent}>
+                    <p>Upgrade to Pro to create unlimited secure notes and keep all your sensitive information in one place.</p>
                 </div>
             </Modal>
         </section>
